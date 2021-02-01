@@ -13,14 +13,14 @@ LOG.setLevel(logging.INFO)
 def scale(payload):
     """Scales Payload"""
     
-    LOG.info(f"Scaling Payload: \n{payload}")
+    LOG.info(f"Scaling Payload: \n{payload}\n")
     scaler = StandardScaler().fit(payload.astype(float))
     scaled_adhoc_predict = scaler.transform(payload.astype(float))
     return scaled_adhoc_predict
 
 @app.route("/")
 def home():
-    html = f"<h3>Sklearn Prediction Home</h3>"
+    html = "<h3>Sklearn Prediction Home</h3>"
     return html.format(format)
 
 @app.route("/predict", methods=['POST'])
@@ -55,13 +55,16 @@ def predict():
     
     # Logging the input payload
     json_payload = request.json
-    LOG.info(f"JSON payload: \n{json_payload}")
+    LOG.info(f"JSON payload: \n{json_payload}\n")
     inference_payload = pd.DataFrame(json_payload)
-    LOG.info(f"Inference payload DataFrame: \n{inference_payload}")
+    LOG.info(f"Inference payload DataFrame: \n{inference_payload}\n")
     # scale the input
     scaled_payload = scale(inference_payload)
+    LOG.info(f"Logging scaled payload: \n{scaled_payload}\n")
     # get an output prediction from the pretrained model, clf
     prediction = list(clf.predict(scaled_payload))
+    # log statement that prints out the pre-trained model prediction
+    LOG.info(f"Logging model prediction values: \n{prediction}\n")
     # TO DO:  Log the output prediction value
     return jsonify({'prediction': prediction})
 
