@@ -4,7 +4,7 @@
 
 # Step 1:
 # Build image and add a descriptive tag
-docker build --tag=apimodel .
+docker build -t apimodel:udacityproject .
 
 # Step 2: 
 # List docker images
